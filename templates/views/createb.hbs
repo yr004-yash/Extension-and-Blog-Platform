@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Home</title>
+</head>
+
+<body>
+
+    {{>loginnav}}
+
+
+    <br>
+
+    {{!-- main part-start --}}
+    <div clss="container-fluid">
+        <div class="row">
+            <div class="col-md-10 col-12 mx-auto">
+                <section class="h-100 h-custom" style="background-color: #8fc4b7;border-radius: 50px;">
+                    <div class="container py-5 h-100">
+                        <div class="row d-flex justify-content-center align-items-center h-100">
+                            <div class="col-lg-8 col-xl-6">
+                                <div class="card rounded-3">
+                                    <div class="card-body p-4 p-md-5" >
+                                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2"><b>Write Down</b></h3>
+
+                                        <form class="px-md-2" action="/blog/createblog" method="post">
+
+                                            <div class="form-outline mb-4">
+                                             
+                                                <textarea style="margin-left: auto;margin-right: auto;display: block;" class="division" rows="1"
+                        cols="50" name="newb"></textarea>
+                                                {{!-- <textarea id="form3Example1q" class="form-control" name="emaill" /> --}}
+                                            </div>
+
+                                            <button type="submit" class="btn btn-success btn-lg mb-1">Submit</button>
+
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    {{!-- main part-end --}}
+
+
+   <br>
+    {{>service}}
+    <br>
+    {{>maps}}
+
+    <style>
+        /*chatgpt*/
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        .h-custom {
+            height: calc(100vh - 100px);
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        .btn {
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .h-custom {
+                height: auto;
+            }
+
+            .card {
+                margin-top: 30px;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+
+            .btn {
+                margin-top: 20px;
+            }
+        }
+        /*chatgpt*/
+    </style>
+    <script src="../jq/jquery.js" type="text/javascript"></script>
+    <script src="../js/bootstrap.js" type="text/javascript"></script>
+</body>
+
+</html>

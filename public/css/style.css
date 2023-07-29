@@ -1,0 +1,15 @@
+html{
+    scroll-behavior: smooth;
+}
+
+.our-services:hover h4,
+.our-services:hover p{
+    color:#ffff;
+}
+
+.settings:hover{
+    box-shadow:0 0 25px 0 rgba(33,39,221,0.2);
+    cursor:pointer;
+    border-radius: 50%;
+    background-image:linear-gradient(-45deg,#92757f 0%,#a194ad 50%);
+}

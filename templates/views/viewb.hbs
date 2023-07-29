@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    {{!--
+    <script src="E:\Thapa\NODEJS\Project-extension\templates\views\x.js"></script> --}}
+    <title>Home</title>
+</head>
+
+<body>
+
+
+
+    {{>loginnav}}
+
+
+
+    <br>
+
+
+
+    <div clss="container-fluid navbar-style py-3">
+        <div class="row">
+            <div class="col-md-10 col-12 mx-auto">
+                <br>
+                <center>
+                    <span class="y"><button type="button" class="btn btn-secondary btn-lg">Click Here</button></span>
+                    <div class="deta"></div>
+                </center>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    {{>service}}
+    <br>
+    {{>maps}}
+
+
+    <style>
+        .x{
+            color:rgb(11, 102, 79)
+        }
+        .dd{
+            font-size: 100%;
+            font-weight: 400;
+            text-align: left;
+        }
+        .cd{
+            font-weight: 400;
+            text-align: right;
+            color:rgb(30, 30, 163)
+        }
+        .cmnt{
+            
+            font-size: 70%;
+            text-align: right; 
+        }
+        .button-container {
+        text-align: right;
+        border: 0;
+      }
+    </style>
+
+    <script>
+        var touch = document.getElementsByClassName("btn-secondary")[0];
+        function fun(obj) {
+            const ddd = obj.className.split(" ");
+            //console.log(ddd[0]);
+            const dataToSend = {
+                inputData: ddd[0],
+                extraData: ddd[1]
+            };
+
+            // Send the data to the backend using an HTTP POST request
+            fetch('/api/addcmnt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSend)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response from backend:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', err);
+                });
+        }
+        const info = async (event) => {
+            try {
+                var total = "<br>";
+                var urlscrap = `http://localhost:3000/usr`;
+                const soriginal = await fetch(urlscrap, {
+                    method: 'GET',
+                });
+                var sdata = await soriginal.json();
+                var arrData = [sdata];
+                //console.log(sdata);
+                for (var i of arrData[0]) {
+                    var cnt = -1;
+                    total += `<div><h1 class="x"><b>-${i.usernameb}</b></h1></div><div>`;
+                    for (var j of i.blgs) {
+                        cnt++;
+                        //console.log(j.b);
+                        total += `<ul><li><p class="dd">${j.b}</p></li></ul>`;
+                        for(var k of j.cmnts){
+                            total+=`<p class="cd"><i>${k.usernamec}</i></p>`;
+                            total+=`<p class="cmnt">-${k.c}</p>`
+                        }
+                        total += `<div class="button-container">
+                            <button 
+                            type="button" 
+                                class="${cnt} ${i.usernameb} xdd " 
+                                onclick="fun(this)"
+                            >
+                                <a href="/addcmnt">New Comment</a>
+                            </button>
+                        </div><br>`;
+                        //function
+                    }
+                    total += `</div><br><br><br>`;
+                }
+                document.getElementsByClassName("deta")[0].innerHTML = total;
+                //function
+
+                //Output
+
+
+            }
+            catch (err) { console.log(err); }
+        }
+        touch.addEventListener("click", info);
+    </script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="../js/bootstrap.js" type="text/javascript"></script>
+</body>
+
+</html>

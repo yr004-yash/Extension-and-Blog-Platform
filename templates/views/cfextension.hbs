@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Home</title>
+</head>
+
+<body>
+
+
+
+    {{>loginnav}}
+
+
+
+    <br>
+
+
+
+    <div clss="container-fluid navbar-style py-3">
+        <div class="row">
+            <div class="col-md-10 col-12 mx-auto">
+                <div>
+                    <h4 class="text-center">Enter handle</h4>
+                    <textarea style="margin-left: auto;margin-right: auto;display: block;" class="handle" rows="1"
+                        cols="50"></textarea>
+                    <h4 class="text-center">Enter id of the contest</h4>
+                    <textarea style="margin-left: auto;margin-right: auto;display: block;" class="division" rows="1"
+                        cols="50"></textarea>
+                </div><br>
+                <h4 class="text-center plz"></h4>
+                <button style="margin-left: auto;margin-right: auto;display: block;border-radius:20%;"
+                    class="hov">Submit</button><br>
+                <h4 class="text-center deta"></h4>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    {{>service}}
+    <br>
+    {{>maps}}
+
+
+    <style>
+        /**/
+        .hov:hover {
+            color: rgb(232, 239, 232);
+            background-color: rgb(77, 81, 71);
+        }
+
+        .green {
+            color: rgb(60, 170, 60);
+        }
+
+        .darkblue {
+            color: darkblue;
+        }
+
+        .tsize {
+            font-size: 15px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid rgb(188, 187, 154);
+            background-color: #e6f0ff;
+        }
+
+        .fontlow {
+            font-weight: 400
+        }
+
+        td {
+            padding: 6px;
+        }
+
+        .aaaa {
+            background-color: #f9fcff;
+        }
+    </style>
+
+    <script>
+        var touch = document.getElementsByClassName("hov")[0];
+        const info = async (event) => {
+            var handle = document.getElementsByClassName("handle")[0].value;
+            var contestid = document.getElementsByClassName("division")[0].value;
+            var total = "";
+            if (handle != "" && contestid != "") {
+                try {
+                    var url = `https://codeforces.com/api/contest.status?contestId=${contestid}&handle=${handle}`;
+                    const original = await fetch(url, {
+                        method: 'GET',
+                         credentials : "include"
+                    });
+                    const data = await original.json();
+                    const arrData = [data];
+                    //console.log(data);
+                    //document.getElementsByClassName("deta")[0].innerText = arrData[0].result[0].problem.name;
+                    total += `<center><div class="center"><table class="blue">
+                        <tr class="hero-text;">
+                                <td class="aaaa tsize k"><center><b>Problem</b></center></td>
+                                <td class="aaaa tsize t"><center><b>Verdict</b></center></td>
+                                <td class="aaaa tsize"><center><b>Time</b></center></td>
+                                <td class="aaaa tsize"><center><b>Memory</b></center></td>
+                            </tr>`;
+                    for (var i of arrData[0].result) {
+                        if (i.verdict == "OK") {
+                            total += `
+                            <tr class="hero-text;">
+                                <td class="tsize k fontlow darkblue"><center><u>${i.problem.index}-${i.problem.name}</u></center></td>
+                                <td class="tsize t green"><center><b>Accepted</b></center></td>
+                                <td class="tsize fontlow"><center>${i.timeConsumedMillis} ms</center></td>
+                                <td class="tsize fontlow"><center>${i.memoryConsumedBytes} KB</center></td>
+                            </tr>
+                       `
+                        }
+                        else {
+                            var ver;
+                            if (i.verdict == "TIME_LIMIT_EXCEEDED") ver = `Time limit exceeded on test ${i.passedTestCount + 1}`;
+                            else if (i.verdict == "WRONG_ANSWER") ver = `Wrong answer on test ${i.passedTestCount + 1}`;
+                            else if (i.verdict == "RUNTIME_ERROR") ver = `Runtime error on test ${i.passedTestCount + 1}`;
+                            else if (i.verdict == "MEMORY_LIMIT_EXCEEDED") ver = `Memory limi exceeded on test ${i.passedTestCount + 1}`;
+                            else if (i.verdict == "IDLENESS_LIMIT_EXCEEDED") ver = `Idleness limit exceeded on test ${i.passedTestCount + 1}`;
+                            else if (i.verdict == "SKIPPED") ver = "Skipped";
+                            else ver = "Compilation error";
+                            total += `
+                            <tr class="hero-text;">
+                                <td class="tsize k fontlow darkblue"><center><u>${i.problem.index}-${i.problem.name}</u></center></td>
+                                <td class="tsize t fontlow darkblue"><center>${ver}</center></td>
+                                <td class="tsize fontlow"><center>${i.timeConsumedMillis} ms</center></td>
+                                <td class="tsize fontlow"><center>${i.memoryConsumedBytes} KB</center></td>
+                            </tr>
+                      `
+                        }
+                    }
+                    //console.log(total);
+                    total += `</table></p></center>`;
+                    document.getElementsByClassName("deta")[0].innerHTML = total;
+                    document.getElementsByClassName("plz")[0].innerText = "";
+
+                }
+                catch (err) { document.getElementsByClassName("plz")[0].innerText = "Please enter valid value"; }
+            }
+            else {
+                document.getElementsByClassName("plz")[0].innerText = "Please fill both the field";
+            }
+        }
+        touch.addEventListener("click", info);
+    </script>
+
+
+
+    <script src="../jq/jquery.js" type="text/javascript"></script>
+    <script src="../js/bootstrap.js" type="text/javascript"></script>
+</body>
+
+</html>
